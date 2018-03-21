@@ -60,12 +60,34 @@
   <ImportGroup Label="Shared" />
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\Linux\include\usr\include\mysql;$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemGroup>
+    <ClCompile Include="comline.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="myfile.cpp" />
+    <ClCompile Include="mysqlc.cpp" />
+    <ClCompile Include="programfocus.cpp" />
+    <ClCompile Include="threadpool.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="comline.h" />
+    <ClInclude Include="myfile.h" />
+    <ClInclude Include="mysqlc.h" />
+    <ClInclude Include="nocopyable.h" />
+    <ClInclude Include="programfocus.h" />
+    <ClInclude Include="struct.h" />
+    <ClInclude Include="threadpool.h" />
   </ItemGroup>
-  <ItemDefinitionGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalOptions>`mysql_config --cflags` `mysql_config --libs` %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <AdditionalOptions>`mysql_config --cflags` `mysql_config --libs` %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+  </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
 </Project>
