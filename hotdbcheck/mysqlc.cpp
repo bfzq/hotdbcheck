@@ -30,8 +30,15 @@ bool MySQLC::query(std::string sql, std::function<bool(MYSQL_ROW)> f) {
 			MYSQL_ROW row;
 			int num = mysql_num_rows(res);
 			bool retVal;
+
+
 			if (num) {
 				while ((row = mysql_fetch_row(res)) != NULL) {
+					unsigned long * lengths;
+					lengths = mysql_fetch_lengths(res);
+					if (!lengths) {
+						std::cout << lengths << std::endl;
+					}
 					retVal = f(row);
 				}
 			}

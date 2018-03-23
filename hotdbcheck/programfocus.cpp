@@ -13,6 +13,9 @@ ProgramFocus::ProgramFocus() {
 ProgramFocus::ProgramFocus(int argc, char * argv[]) {
 	init();
 	config = cl->getParam(argc, argv);
+	if (!cl->checkConnect(config)) {
+		exit(10);
+	}
 }
 
 
@@ -63,7 +66,6 @@ bool ProgramFocus::getRuleValue() {
 }
 
 bool ProgramFocus::run(std::function<void(std::vector<std::string>)> f) {
-	
 	getRuleValue();
 	int n = keys.size() / config.eachData;
 	threadPool.setMaxQueueSize(config.tasks);
@@ -74,7 +76,6 @@ bool ProgramFocus::run(std::function<void(std::vector<std::string>)> f) {
 			key.push_back(keys.back());
 			keys.pop_back();
 		}
-
 		threadPool.run(std::bind(f,key));
 	}
 }

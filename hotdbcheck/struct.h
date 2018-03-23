@@ -26,7 +26,6 @@
 #define __PATH__ "path"
 
 
-
 struct Config {
 	std::string hotdbHost;
 	std::string hotdbUser;
@@ -87,16 +86,6 @@ struct Config {
 		path = "config.cnf";
 	}
 };
-
-
-struct Key {
-	std::string k;
-};
-
-
-
-
-
 
 #endif // !__STRUCT__
 
