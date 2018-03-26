@@ -79,8 +79,7 @@ bool ProgramFocus::run(std::function<void(std::vector<std::string*>)> f) {
 	for (int i = 0; i < n; i++) {
 		std::vector<std::string*> key;
 		std::copy(keys.begin() + config.eachData * i, keys.begin() + config.eachData * (i + 1), std::back_inserter(key));
-				threadPool.run(std::bind(f, key));
-		threadPool.run(std::bind(f,keys));
+		threadPool.run(std::bind(f, key));
 	}
 }
 
