@@ -39,7 +39,7 @@ bool ProgramFocus::getRuleColumn() {
 			}else {
 				return false;
 			}
-		})) {
+		},nullptr)) {
 			mysqlc->disConnect();
 			return false;
 			std::cout << "RULE COLUMN NULL" << std::endl;
@@ -51,12 +51,15 @@ bool ProgramFocus::getRuleColumn() {
 
 bool ProgramFocus::getRuleValue() {
 	if (mysqlc->connect(config.hotdbHost, config.hotdbUser, config.hotdbPassword, config.hotdbDB, config.hotdbPort)) {
-		
 		std::string sql = "select distinct " + config.ruleColumn + " as c1 from " + config.tableName;
 		if (!mysqlc->query(sql, [&](MYSQL_ROW row) {
-			keys.push_back(row[0]);
+			std::string* s = nullptr;
+			if (row[0]) {
+				s = new std::string(row[0]);
+			}
+			keys.push_back(s);
 			return true;
-		})) {
+		}, nullptr)) {
 			mysqlc->disConnect();
 			return false;
 		}
@@ -65,33 +68,38 @@ bool ProgramFocus::getRuleValue() {
 	return true;
 }
 
-bool ProgramFocus::run(std::function<void(std::vector<std::string>)> f) {
+bool ProgramFocus::run(std::function<void(std::vector<std::string*>)> f) {
 	getRuleValue();
 	int n = keys.size() / config.eachData;
+	if (keys.size() % config.eachData) {
+		n++;
+	}
 	threadPool.setMaxQueueSize(config.tasks);
 	threadPool.start(config.tasks);
-	for (int i = 0; i < n + 1; i++) {
-		std::vector<std::string> key;
-		for (int j = 0; j < config.eachData && keys.size() > 0; j++) {
-			key.push_back(keys.back());
-			keys.pop_back();
-		}
-		threadPool.run(std::bind(f,key));
+	for (int i = 0; i < n; i++) {
+		std::vector<std::string*> key;
+		std::copy(keys.begin() + config.eachData * i, keys.begin() + config.eachData * (i + 1), std::back_inserter(key));
+				threadPool.run(std::bind(f, key));
+		threadPool.run(std::bind(f,keys));
 	}
 }
 
 bool ProgramFocus::main() {
 	getRuleColumn();
-	run([&](std::vector<std::string> key) {
+	run([&](std::vector<std::string*> key) {
 		MySQLC* mysqlc = new MySQLC();
 		mysqlc->connect(config.hotdbHost, config.hotdbUser, config.hotdbPassword, config.hotdbDB, config.hotdbPort);
 		for (int i = 0; i < key.size(); i++) {
-			std::string sql = "select distinct " + config.ruleColumn + " from " + config.hotdbDB + "." + config.tableName + " where " + config.ruleColumn + " = '" + key.at(i) + "'";
+			std::string sql = key.at(i) ? "select distinct " + config.ruleColumn + " from " + config.hotdbDB + "." + config.tableName + " where " + config.ruleColumn + " = '" + *(key.at(i)) + "'" : "select distinct " + config.ruleColumn + " from " + config.hotdbDB + "." + config.tableName + " where " + config.ruleColumn + " is null";
 			mysqlc->query(sql, [&](MYSQL_ROW row) {
-				if (!row) {
-					std::cout << key.at(i) << std::endl;
-				}
 				return true;
+			}, [&](void) {
+				if (key.at(i) != nullptr) {
+					std::cout << *(key.at(i)) << std::endl;
+				}
+				else {
+					std::cout << "NULL" << std::endl;
+				}
 			});
 		}
 		mysqlc->disConnect();

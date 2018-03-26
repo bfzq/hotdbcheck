@@ -20,12 +20,12 @@ private:
 	ComLine* cl;
 	MySQLC* mysqlc;
 	struct Config config;
-	std::vector<std::string> keys;
+	std::vector<std::string*> keys;
 	fivestar::ThreadPool threadPool;
 private:
 	bool getRuleColumn();
 	bool getRuleValue();
-	bool run(std::function<void(std::vector<std::string>)> f);
+	bool run(std::function<void(std::vector<std::string*>)> f);
 public:
 	bool main();
 };

@@ -24,28 +24,20 @@ void MySQLC::disConnect() {
 	mysql_library_end();
 }
 
-bool MySQLC::query(std::string sql, std::function<bool(MYSQL_ROW)> f) {
+
+bool MySQLC::query(std::string sql, std::function<bool(MYSQL_ROW)> f, std::function<void(void)> empty) {
 	if (!mysql_query(&mysql, sql.c_str())) {
 		if (res = mysql_store_result(&mysql)) {
-			MYSQL_ROW row;
-			int num = mysql_num_rows(res);
 			bool retVal;
-
-
-			if (num) {
+			if (mysql_num_rows(res)) {
 				while ((row = mysql_fetch_row(res)) != NULL) {
-					unsigned long * lengths;
-					lengths = mysql_fetch_lengths(res);
-					if (!lengths) {
-						std::cout << lengths << std::endl;
-					}
 					retVal = f(row);
 				}
+			}else {
+				if (empty) {
+					empty();
+				}
 			}
-			else {
-				retVal = f(NULL);
-			}
-		
 			mysql_free_result(res);
 			return retVal;
 		}
