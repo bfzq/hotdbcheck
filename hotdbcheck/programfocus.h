@@ -25,6 +25,7 @@ private:
 private:
 	bool getRuleColumn();
 	bool getRuleValue();
+	void deleteVector(std::vector<std::string*>);
 	bool run(std::function<void(std::vector<std::string*>)> f);
 public:
 	bool main();

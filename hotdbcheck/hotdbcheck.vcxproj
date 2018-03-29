@@ -82,10 +82,10 @@
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalOptions>`mysql_config --cflags` `mysql_config --libs` %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>`mysql_config --cflags` `mysql_config --libs`  -pthread %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
-      <AdditionalOptions>`mysql_config --cflags` `mysql_config --libs` %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>`mysql_config --cflags` `mysql_config --libs`  -pthread %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
