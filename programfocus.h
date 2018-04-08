@@ -5,7 +5,6 @@
 #include <vector>
 #include "struct.h"
 #include "comline.h"
-#include "myfile.h"
 #include "mysqlc.h"
 #include "threadpool.h"
 

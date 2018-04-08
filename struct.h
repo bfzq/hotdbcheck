@@ -80,7 +80,7 @@ struct Config {
 		mysqlDB = "hotdb_config";
 		mysqlPort = 3306;
 		tasks = 8;
-		eachData = 100;
+		eachData = 10000;
 		cache = true;
 		tableName = "t1";
 		path = "config.cnf";

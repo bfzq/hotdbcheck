@@ -15,6 +15,7 @@ ProgramFocus::ProgramFocus(int argc, char * argv[]) {
 	config = cl->getParam(argc, argv);
 	if (!cl->checkConnect(config)) {
 		exit(10);
+        
 	}
 }
 
@@ -36,7 +37,7 @@ bool ProgramFocus::getRuleColumn() {
 		if (!mysqlc->query(sql, [&](MYSQL_ROW row) {
 			if (row[0] != NULL) {
 				config.ruleColumn = row[0];
-				return true;
+                return true;
 			}else {
 				return false;
 			}
@@ -46,8 +47,10 @@ bool ProgramFocus::getRuleColumn() {
 			std::cout << "RULE COLUMN NULL" << std::endl;
 		}
 		mysqlc->disConnect();
-		return true;
-	}
+		return true ;
+    }else{
+        return false ;
+    }
 }
 
 bool ProgramFocus::getRuleValue() {
@@ -80,15 +83,11 @@ void ProgramFocus::deleteVector(std::vector<std::string*> v) {
 
 bool ProgramFocus::run(std::function<void(std::vector<std::string*>)> f) {
 	getRuleValue();
-	int n = keys.size() / config.eachData;
-	if (keys.size() % config.eachData) {
-		n++;
-	}
-	threadPool.setMaxQueueSize(config.tasks);
+	threadPool.setMaxQueueSize(config.tasks * 10);
 	threadPool.start(config.tasks);
-	for (int i = 0; i < n; i++) {
+	while (keys.size() > 0) {
 		std::vector<std::string*> key;
-		if (keys.size() >= config.eachData) {
+		if (keys.size() > config.eachData) {
 			key.assign(keys.begin(), keys.begin() + config.eachData);
 			keys.erase(keys.begin(), keys.begin() + config.eachData);
 		}
@@ -96,33 +95,35 @@ bool ProgramFocus::run(std::function<void(std::vector<std::string*>)> f) {
 			key.assign(keys.begin(), keys.end());
 			keys.erase(keys.begin(), keys.end());
 		}
-		//std::copy(keys.begin() + config.eachData * i, keys.begin() + config.eachData * (i), std::back_inserter(key));
 		threadPool.run(std::bind(f, key));
 	}
 	threadPool.stop();
+	return true;
 }
 
 bool ProgramFocus::main() {
 	getRuleColumn();
-	run([&](std::vector<std::string*> key) {
+	return run([&](std::vector<std::string*> key) {
 		MySQLC* mysqlc = new MySQLC();
-		mysqlc->connect(config.hotdbHost, config.hotdbUser, config.hotdbPassword, config.hotdbDB, config.hotdbPort);
-		for (int i = 0; i < key.size(); i++) {
-			std::string sql = (key.at(i) != nullptr) ? "select distinct " + config.ruleColumn + " from " + config.tableName + " where " + config.ruleColumn + " = '" + *(key.at(i)) + "'" : "select distinct " + config.ruleColumn + " from " + config.tableName + " where " + config.ruleColumn + " is null";
-			mysqlc->query(sql, [&](MYSQL_ROW row) {
-				return true;
-			}, [&](void) {
-				if (key.at(i) != nullptr) {
-					std::cout << *(key.at(i)) << std::endl;
-				}
-				else {
-					std::cout << "NULL" << std::endl;
-				}
-			});
-		}
-		mysqlc->disConnect();
+        if(!mysqlc->connect(config.hotdbHost, config.hotdbUser, config.hotdbPassword, config.hotdbDB, config.hotdbPort)) {
+            delete mysqlc ;
+            return false ;
+        }
+        for (int i = 0; i < key.size(); i++) {
+            std::string sql = (key.at(i) != nullptr) ? "select distinct " + config.ruleColumn + " from " + config.tableName + " where " + config.ruleColumn + " = '" + *(key.at(i)) + "'" : "select distinct " + config.ruleColumn + " from " + config.tableName + " where " + config.ruleColumn + " is null";
+            mysqlc->query(sql, [&](MYSQL_ROW row) {
+                return true;
+            }, [&](void) {
+                if (key.at(i) != nullptr) {
+                    std::cout << " = " << *(key.at(i)) << std::endl;
+                }
+                else {
+                    std::cout << " = NULL" << std::endl;
+                }
+            });
+        }
 		delete mysqlc;
 		deleteVector(key);
+        return true ;
 	});
-	return false;
 }

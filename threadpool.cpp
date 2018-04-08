@@ -33,16 +33,20 @@ void ThreadPool::start(int numThreads)
 
 void ThreadPool::stop()
 {
-	{
-		unique_lock<mutex>  lock(_mutex);
-		_running = false;
-		_notEmpty.notify_all();
-	}
+    {
+        unique_lock<mutex>  lock(_mutex);
+        _running = false;
+        _notEmpty.notify_all();
+    }
 
-	for (size_t i = 0; i < _threads.size(); ++i)
-	{
-		_threads[i].join();
-	}
+    ThreadPool::wait() ;
+}
+
+void ThreadPool::wait() {
+    for (size_t i = 0; i < _threads.size(); ++i)
+    {
+        _threads[i].join();
+    }
 }
 
 void ThreadPool::run(const Task &f)
@@ -79,7 +83,6 @@ ThreadPool::Task ThreadPool::take()
 	{
 		task = _queue.front();
 		_queue.pop_front();
-
 		if (_maxQueueSize > 0)
 		{
 			_notFull.notify_one();
@@ -98,7 +101,7 @@ void ThreadPool::runInThread()
 {
 	try
 	{
-		while (_running)
+		while (_queue.size() > 0 || _running)
 		{
 			Task task = take();
 			if (task)
@@ -107,8 +110,7 @@ void ThreadPool::runInThread()
 			}
 		}
 	}
-	catch (const exception& ex)
-	{
+	catch (const exception& ex) {
 		fprintf(stderr, "exception caught in ThreadPool %s\n", _name.c_str());
 		fprintf(stderr, "reason: %s\n", ex.what());
 		abort();
