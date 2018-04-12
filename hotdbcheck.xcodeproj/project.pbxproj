@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F444F3152079457D0097D3B3 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F444F3142079457D0097D3B3 /* main.cpp */; };
 		F444F3242079461B0097D3B3 /* comline.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F444F3232079461B0097D3B3 /* comline.cpp */; };
 		F444F3262079462A0097D3B3 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F444F3252079462A0097D3B3 /* main.cpp */; };
 		F444F329207946390097D3B3 /* mysqlc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F444F328207946380097D3B3 /* mysqlc.cpp */; };
@@ -30,8 +29,7 @@
 
 /* Begin PBXFileReference section */
 		F418D540207A093D00F8C008 /* threadpool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = threadpool.h; sourceTree = "<group>"; };
-		F444F3112079457D0097D3B3 /* index */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = index; sourceTree = BUILT_PRODUCTS_DIR; };
-		F444F3142079457D0097D3B3 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		F444F3112079457D0097D3B3 /* index */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = index; path = /Users/home/Documents/devel/hotdbcheck/build/Debug/index; sourceTree = "<absolute>"; };
 		F444F31F207945FC0097D3B3 /* comline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = comline.h; sourceTree = "<group>"; };
 		F444F320207945FC0097D3B3 /* struct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = struct.h; sourceTree = "<group>"; };
 		F444F3232079461B0097D3B3 /* comline.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = comline.cpp; sourceTree = "<group>"; };
@@ -64,25 +62,7 @@
 				F444F31D207945CB0097D3B3 /* 线程 */,
 				F444F31C207945B20097D3B3 /* 主程序 */,
 				F444F31B207945A80097D3B3 /* mysql链接 */,
-				F444F3132079457D0097D3B3 /* index */,
-				F444F3122079457D0097D3B3 /* Products */,
 			);
-			sourceTree = "<group>";
-		};
-		F444F3122079457D0097D3B3 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				F444F3112079457D0097D3B3 /* index */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		F444F3132079457D0097D3B3 /* index */ = {
-			isa = PBXGroup;
-			children = (
-				F444F3142079457D0097D3B3 /* main.cpp */,
-			);
-			path = index;
 			sourceTree = "<group>";
 		};
 		F444F31B207945A80097D3B3 /* mysql链接 */ = {
@@ -187,7 +167,7 @@
 				en,
 			);
 			mainGroup = F444F2E5207944E80097D3B3;
-			productRefGroup = F444F3122079457D0097D3B3 /* Products */;
+			productRefGroup = F444F2E5207944E80097D3B3;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -206,7 +186,6 @@
 				F444F332207946AF0097D3B3 /* makefile in Sources */,
 				F444F330207946510097D3B3 /* programfocus.cpp in Sources */,
 				F444F32D207946480097D3B3 /* threadpool.cpp in Sources */,
-				F444F3152079457D0097D3B3 /* main.cpp in Sources */,
 				F444F3242079461B0097D3B3 /* comline.cpp in Sources */,
 				F444F3262079462A0097D3B3 /* main.cpp in Sources */,
 			);
