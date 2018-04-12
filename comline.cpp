@@ -9,6 +9,7 @@ ComLine::ComLine() {
 
 ComLine::~ComLine() {
 	delete mc;
+	mc = nullptr ;
 }
 
 void ComLine::startTime() {
@@ -102,18 +103,12 @@ bool ComLine::checkConnect(struct Config config) {
 	mc = new MySQLC();
 	if (!mc->connect(config.hotdbHost,config.hotdbUser, config.hotdbPassword, config.hotdbDB, config.hotdbPort)) {
 		std::cout << "To connect hotdb Error." << std::endl;
-		delete mc ;
-		mc = nullptr ;
 		return false;
 	}
 	mc->disConnect();
 	if (!mc->connect(config.mysqlHost, config.mysqlUser, config.mysqlPassword, config.mysqlDB, config.mysqlPort)) {
 		std::cout << "To connect mysql Error." << std::endl;
-		delete mc ;
-		mc = nullptr ;
 		return false;
 	}
-	delete mc ;
-	mc = nullptr ;
 	return true;
 }
