@@ -24,3 +24,13 @@ help		show help info.
 ```
 ./hotdbcheck --hotdb-user=root --hotdb-host=192.168.56.101 --hotdb-port=3338 --hotdb-password=root --hotdb-db=benchmark --mysql-host=127.0.0.1 --mysql-port=3306 --mysql-password=123456 --mysql-user=root --mysql-db=mysqldb  --table-name=checktablename --tasks=16 --each-data=10000
 ```
+- make 用例
+1. debug版本
+```
+make
+```
+2. release版本
+
+```
+make RELEASE=1
+```
