@@ -1,5 +1,7 @@
 MYSQL_INCLUDE=-I/usr/local/mysql/include
 MYSQL_LIB=/usr/local/mysql/lib/libmysqlclient.a
+#MYSQL_INCLUDE=`mysql_config --cflags`
+#MYSQL_LIB=`mysql_config --variable=pkglibdir`/libmysqlclient.a
 hotdbcheck:main.o threadpool.o comline.o mysqlc.o programfocus.o
 	g++ -g -o hotdbcheck main.o threadpool.o comline.o mysqlc.o programfocus.o $(MYSQL_LIB) -ldl -lpthread
 programfocus.o:programfocus.cpp

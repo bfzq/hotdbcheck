@@ -12,4 +12,3 @@ int main(int argc, char* argv[]) {
 	_mysql_library_end ;
 	return !retVal;
 }
-
