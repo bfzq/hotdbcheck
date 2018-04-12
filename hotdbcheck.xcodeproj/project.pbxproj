@@ -29,6 +29,7 @@
 
 /* Begin PBXFileReference section */
 		F418D540207A093D00F8C008 /* threadpool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = threadpool.h; sourceTree = "<group>"; };
+		F43788E9207F518000125DA1 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		F444F3112079457D0097D3B3 /* index */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = index; path = /Users/home/Documents/devel/hotdbcheck/build/Debug/index; sourceTree = "<absolute>"; };
 		F444F31F207945FC0097D3B3 /* comline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = comline.h; sourceTree = "<group>"; };
 		F444F320207945FC0097D3B3 /* struct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = struct.h; sourceTree = "<group>"; };
@@ -58,6 +59,7 @@
 			isa = PBXGroup;
 			children = (
 				F444F331207946AF0097D3B3 /* makefile */,
+				F43788E9207F518000125DA1 /* README.md */,
 				F444F31E207945E00097D3B3 /* 外壳 */,
 				F444F31D207945CB0097D3B3 /* 线程 */,
 				F444F31C207945B20097D3B3 /* 主程序 */,

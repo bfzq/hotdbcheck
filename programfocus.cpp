@@ -107,6 +107,11 @@ bool ProgramFocus::run(std::function<void(std::vector<std::string*>)> f) {
 
 bool ProgramFocus::main() {
 	getRuleColumn();
+	// 输出基本信息
+	std::cout << "check table is " << config.tableName << "." << std::endl ;
+	std::cout << "route column is " << config.ruleColumn << "." << std::endl ;
+	std::cout << "wrong route value " << std::endl ;
+	//
 	return run([&](std::vector<std::string*> key) {
 		MySQLC* mysqlc = new MySQLC();
         if(!mysqlc->connect(config.hotdbHost, config.hotdbUser, config.hotdbPassword, config.hotdbDB, config.hotdbPort)) {
