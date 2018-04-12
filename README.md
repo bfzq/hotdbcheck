@@ -36,5 +36,5 @@ make RELEASE=1
 ```
 
 - 编译器要求
-1. gcc >= 4.8
+1. gcc >= 4.8.2
 2. 存在mysql-devel
