@@ -10,7 +10,8 @@
 
 class ProgramFocus {
 private:
-		void init();
+	void init();
+	void unInit() ;
 public:
 	ProgramFocus();
 	ProgramFocus(int argc, char* argv[]);

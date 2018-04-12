@@ -8,6 +8,9 @@
 #include <iostream>
 #include <functional>
 
+#define _mysql_library_init mysql_library_init(0, NULL, NULL)
+#define _mysql_library_end mysql_library_end()
+
 class MySQLC {
 public:
 	MySQLC();

@@ -10,6 +10,7 @@ MySQLC::MySQLC() {
 
 MySQLC::~MySQLC() {
 	disConnect();
+	mysql_thread_end();
 }
 
 
@@ -23,7 +24,6 @@ bool MySQLC::connect(std::string host, std::string user, std::string password, s
 
 void MySQLC::disConnect() {
 	mysql_close(&mysql);
-    mysql_thread_end();
 }
 
 

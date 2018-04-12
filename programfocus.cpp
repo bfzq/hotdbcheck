@@ -6,6 +6,13 @@ void ProgramFocus::init() {
 	mysqlc = new MySQLC();
 }
 
+void ProgramFocus::unInit() {
+	delete cl ;
+	cl = nullptr ;
+	delete mysqlc ;
+	mysqlc = nullptr ;
+}
+
 ProgramFocus::ProgramFocus() {
 	init();
 }
@@ -21,10 +28,7 @@ ProgramFocus::ProgramFocus(int argc, char * argv[]) {
 
 
 ProgramFocus::~ProgramFocus() {
-	delete cl;
-	cl = nullptr;
-	delete mysqlc;
-	mysqlc = nullptr;
+	unInit() ;
 	deleteVector(keys);
 }
 
