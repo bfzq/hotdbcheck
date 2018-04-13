@@ -12,7 +12,7 @@ LFLAGS=
 ifeq ($(RELEASE),0)
 # debug
 	CFLAGS += -g -std=c++11
-	LFLAGS += -ldl -lpthread -g
+	LFLAGS += -ldl -lpthread -g 
 else
 # release
 	CFLAGS += -std=c++11

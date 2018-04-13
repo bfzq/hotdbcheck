@@ -1,6 +1,6 @@
 #include "programfocus.h"
 
-
+//bool ProgramFocus::process = true ;
 void ProgramFocus::init() {
 	cl = new ComLine();
 	mysqlc = new MySQLC();
@@ -106,48 +106,42 @@ bool ProgramFocus::run(std::function<void(std::vector<std::string*>)> f) {
 }
 
 bool ProgramFocus::main() {
-//	processLine() ;
 	getRuleColumn();
-	if (run([&](std::vector<std::string*> key) {
+	std::mutex mt ;
+	run([&](std::vector<std::string*> key) {
 		MySQLC* mysqlc = new MySQLC();
         if(!mysqlc->connect(config.hotdbHost, config.hotdbUser, config.hotdbPassword, config.hotdbDB, config.hotdbPort)) {
             delete mysqlc ;
-            return false ;
         }
         for (int i = 0; i < key.size(); i++) {
             std::string sql = (key.at(i) != nullptr) ? "select distinct " + config.ruleColumn + " from " + config.tableName + " where " + config.ruleColumn + " = '" + *(key.at(i)) + "'" : "select distinct " + config.ruleColumn + " from " + config.tableName + " where " + config.ruleColumn + " is null";
             mysqlc->query(sql, [&](MYSQL_ROW row) {
                 return true;
             }, [&](void) {
+				mt.lock() ;
                 if (key.at(i) != nullptr) {
-//                    std::cout << " = " << *(key.at(i)) << std::endl;
 					wrong.push_back(*(key.at(i))) ;
                 }
                 else {
 					wrong.push_back("NULL") ;
-//                    std::cout << " = NULL" << std::endl;
                 }
+				mt.unlock() ;
             });
-        }
+			ProgramFocus::processLine() ;
+		}
 		delete mysqlc;
 		deleteVector(key);
-		ProgramFocus::processLine() ;
-        return true ;
-	})) {
-		print() ;
-		return true ;
-	} else {
-		return false ;
-	}
-	
+	});
+	print() ;
+	return true ;
 }
 
+
 void ProgramFocus::processLine() {
-	char bar[102];
 	const char *lable = "|/-\\";
 	static int i = 0 ;
 	printf("[%c]\r", lable[i%4]);
-	fflush(stdout);
+	fflush(stdout) ;
 	i++ ;
 }
 
@@ -166,6 +160,4 @@ void ProgramFocus::print() {
 		}
 		std::cout << "The wrong value total is " << wrong.size() << std::endl ;
 	}
-	
-	
 }
