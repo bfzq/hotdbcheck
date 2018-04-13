@@ -38,3 +38,20 @@ make RELEASE=1
 - 编译器要求
 1. gcc-c++ >= 4.8.2
 2. mysql-devel
+
+- 编译要求
+编译前修改makefile
+```
+MYSQL_INCLUDE=-I/usr/local/mysql/include
+MYSQL_LIB=/usr/local/mysql/lib/libmysqlclient.a
+#MYSQL_INCLUDE=`mysql_config --cflags`
+#MYSQL_LIB=`mysql_config --variable=pkglibdir`/libmysqlclient.a
+
+					||
+					\/
+					
+#MYSQL_INCLUDE=-I/usr/local/mysql/include
+#MYSQL_LIB=/usr/local/mysql/lib/libmysqlclient.a
+MYSQL_INCLUDE=`mysql_config --cflags`
+MYSQL_LIB=`mysql_config --variable=pkglibdir`/libmysqlclient.a
+```
