@@ -107,12 +107,7 @@ bool ProgramFocus::run(std::function<void(std::vector<std::string*>)> f) {
 
 bool ProgramFocus::main() {
 	getRuleColumn();
-	// 输出基本信息
-	std::cout << "check table is " << config.tableName << "." << std::endl ;
-	std::cout << "route column is " << config.ruleColumn << "." << std::endl ;
-	std::cout << "wrong route value " << std::endl ;
-	//
-	return run([&](std::vector<std::string*> key) {
+	if (run([&](std::vector<std::string*> key) {
 		MySQLC* mysqlc = new MySQLC();
         if(!mysqlc->connect(config.hotdbHost, config.hotdbUser, config.hotdbPassword, config.hotdbDB, config.hotdbPort)) {
             delete mysqlc ;
@@ -124,15 +119,42 @@ bool ProgramFocus::main() {
                 return true;
             }, [&](void) {
                 if (key.at(i) != nullptr) {
-                    std::cout << " = " << *(key.at(i)) << std::endl;
+//                    std::cout << " = " << *(key.at(i)) << std::endl;
+					wrong.push_back(*(key.at(i))) ;
                 }
                 else {
-                    std::cout << " = NULL" << std::endl;
+					wrong.push_back("NULL") ;
+//                    std::cout << " = NULL" << std::endl;
                 }
             });
         }
 		delete mysqlc;
 		deleteVector(key);
         return true ;
-	});
+	})) {
+		print() ;
+		return true ;
+	} else {
+		return false ;
+	}
+	
+}
+
+
+
+void ProgramFocus::print() {
+	std::cout << "The check table is " << config.tableName << "." << std::endl ;
+	std::cout << "The route column is " << config.ruleColumn << "." << std::endl ;
+	if (0 == wrong.size()) {
+		std::cout << "The rule value is right." << std::endl ;
+	}else {
+		std::cout << "Print wrong_route_value :" << std::endl ;
+		std::vector<std::string>::iterator iter ;
+		for (iter = wrong.begin() ; iter != wrong.end() ;iter++ ) {
+			std::cout << *iter << std::endl ;
+		}
+		std::cout << "The wrong value total is " << wrong.size() << std::endl ;
+	}
+	
+	
 }

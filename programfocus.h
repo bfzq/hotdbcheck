@@ -22,11 +22,13 @@ private:
 	struct Config config;
 	std::vector<std::string*> keys;
 	fivestar::ThreadPool threadPool;
+	std::vector<std::string> wrong ; // wrong route value 
 private:
 	bool getRuleColumn();
 	bool getRuleValue();
 	void deleteVector(std::vector<std::string*>);
 	bool run(std::function<void(std::vector<std::string*>)> f);
+	void print() ; // print zhe wrong value
 public:
 	bool main();
 };
