@@ -106,6 +106,7 @@ bool ProgramFocus::run(std::function<void(std::vector<std::string*>)> f) {
 }
 
 bool ProgramFocus::main() {
+//	processLine() ;
 	getRuleColumn();
 	if (run([&](std::vector<std::string*> key) {
 		MySQLC* mysqlc = new MySQLC();
@@ -130,6 +131,7 @@ bool ProgramFocus::main() {
         }
 		delete mysqlc;
 		deleteVector(key);
+		ProgramFocus::processLine() ;
         return true ;
 	})) {
 		print() ;
@@ -138,6 +140,15 @@ bool ProgramFocus::main() {
 		return false ;
 	}
 	
+}
+
+void ProgramFocus::processLine() {
+	char bar[102];
+	const char *lable = "|/-\\";
+	static int i = 0 ;
+	printf("[%c]\r", lable[i%4]);
+	fflush(stdout);
+	i++ ;
 }
 
 

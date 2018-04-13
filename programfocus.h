@@ -7,6 +7,7 @@
 #include "comline.h"
 #include "mysqlc.h"
 #include "threadpool.h"
+#include <unistd.h>
 
 class ProgramFocus {
 private:
@@ -29,6 +30,7 @@ private:
 	void deleteVector(std::vector<std::string*>);
 	bool run(std::function<void(std::vector<std::string*>)> f);
 	void print() ; // print zhe wrong value
+	void processLine() ;
 public:
 	bool main();
 };
