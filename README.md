@@ -24,34 +24,7 @@ help		show help info.
 ```
 ./hotdbcheck --hotdb-user=root --hotdb-host=192.168.56.101 --hotdb-port=3338 --hotdb-password=root --hotdb-db=benchmark --mysql-host=127.0.0.1 --mysql-port=3306 --mysql-password=123456 --mysql-user=root --mysql-db=mysqldb  --table-name=checktablename --tasks=16 --each-data=10000
 ```
-- make 用例
-1. debug版本
-```
-make
-```
-2. release版本
-
-```
-make RELEASE=1
-```
 
 - 编译器要求
 1. gcc-c++ >= 4.8.2
 2. mysql-devel
-
-- 编译要求
-编译前修改makefile
-```
-MYSQL_INCLUDE=-I/usr/local/mysql/include
-MYSQL_LIB=/usr/local/mysql/lib/libmysqlclient.a
-#MYSQL_INCLUDE=`mysql_config --cflags`
-#MYSQL_LIB=`mysql_config --variable=pkglibdir`/libmysqlclient.a
-
-					||
-					\/
-					
-#MYSQL_INCLUDE=-I/usr/local/mysql/include
-#MYSQL_LIB=/usr/local/mysql/lib/libmysqlclient.a
-MYSQL_INCLUDE=`mysql_config --cflags`
-MYSQL_LIB=`mysql_config --variable=pkglibdir`/libmysqlclient.a
-```
